@@ -10,7 +10,7 @@
     <div style="background-image: url('{{ asset('storage/images/loginbg.jpg') }}');" class="bg-cover h-screen w-screen overflow-hidden relative">
         <div class="absolute bg-green-900 opacity-85 z-10 h-screen w-screen flex items-center justify-center"> </div>
     <div class="flex justify-center bg-pink-400">     
-            <h1 class="z-50  absolute mt-12 sm:mt-8  text-4xl sm:text-5xl text-center  font-bold text-white opacity-100"><span class="text-green-600 text-6xl">A</span>gricultura <span class="text-green-600 text-6xl">T</span>raining <span class="text-green-600 text-6xl">I</span>nstitute</h1>
+            <h1 class="z-50  absolute mt-12 sm:mt-8  text-4xl sm:text-5xl text-center  font-bold text-white opacity-100"><span class="text-green-600 text-6xl">A</span>gricultur <span class="text-green-600 text-6xl">T</span>raining <span class="text-green-600 text-6xl">I</span>nstitute</h1>
         </div>                <div class="flex flex-row-reverse items-center justify-center px-6 py-8 w-screen mx-auto h-screen lg:py-0 mt-10 sm:mt-0">
                     <div class="w-full  sm:w-1/3  z-50 bg-white opacity-95 rounded-lg shadow dark:border xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
