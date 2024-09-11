@@ -8,8 +8,7 @@ use App\Models\DocumentHistory;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
-use League\Flysystem\Filesystem;
-use League\Flysystem\Ftp\FtpAdapter;
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -35,6 +34,11 @@ class FileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Storage;
+    use Illuminate\Support\Facades\Auth;
+    use App\Models\Document;
+    
     public function store(Request $request)
     {
         $senderId = Auth::id();
@@ -45,12 +49,13 @@ class FileController extends Controller
         $fileExtension = $request->file('file')->getClientOriginalExtension();
         $filename = $filename . '.' . $fileExtension;
     
-        // Store the file on the FTP server in the desired directory
-        $filePath = $request->file('file')->storeAs('public/storage/files', $filename, 'ftp'); // Store in /public_html/public/storage/files
+        // Store the file on the FTP server
+        $filePath = $request->file('file')->storeAs('files', $filename, 'ftp');
     
-        // Rest of your logic remains unchanged
+        // Extract category from request
         $category = $request->input('category');
     
+        // Retrieve the last document based on the category
         $lastDocument = Document::where('category', $category)
             ->latest('updated_at')
             ->whereNotNull('code')
@@ -58,14 +63,13 @@ class FileController extends Controller
     
         $lastCode = null;
         if ($lastDocument) {
-            // Get the code of the last document
             $lastCode = $lastDocument->code;
         }
     
-        // Update the input array for database insertion
-        $input['file'] = $filename; // Only storing the file name in the database
+        // Update the input array with additional data
+        $input['file'] = $filename;
         $input['sender_id'] = $senderId;
-        $input['status'] = "pending";
+        $input['status'] = 'pending';
         $input['sended_date'] = now();
         $input['recieved_by'] = 2;
         $input['type'] = 'incoming';
@@ -77,7 +81,6 @@ class FileController extends Controller
         return redirect('/user-outgoing')->with('success', 'Your file outgoing is successful.');
     }
     
-
     /**
      * Display the specified resource.
      */
