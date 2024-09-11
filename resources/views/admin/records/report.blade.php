@@ -22,31 +22,7 @@
         <h1 class="text-xl font-bold">Month: <span class="text-xl font-semibold">{{ $months ?? 'All Months' }}</span></h1>
         <h1 class="text-xl font-bold">Week: <span class="text-xl font-semibold">{{ $weeks ?? 'All Weeks' }}</span></h1>
     </div>
-    <div class=" p-4">
-        <div class="text-lg">
-            @if(is_null($category) && is_null($months))   
-                @foreach ($grouped as $item)
-                    @if ($loop->first || $item->month !== $grouped[$loop->index - 1]->month)
-                        <h2>{{ \Carbon\Carbon::createFromDate(null, $item->month, null)->format('F') }}</h2>
-                    @endif
-                <p>{{ $item->category }} - {{ $item->count }}</p>
-                @endforeach
-            @endif
-            @if($category && is_null($months))
-                @foreach($documentCounts as $month => $count)
-                    <p>{{ ucfirst($month) }} - {{ $count }}</p>
-                @endforeach
-            @endif
-            @if(is_null($category) && $months)
-            <h1>{{ $months }}</h1>
-                <ul>
-                    @foreach ($documents as $document)
-                        <li>{{ $document->category }} - {{ $document->total }}</li>
-                    @endforeach
-                </ul>
-            @endif
-        </div>
-    </div>
+
 </div>
 
 <div class="w-full p-4 mt-4">

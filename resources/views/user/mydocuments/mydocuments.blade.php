@@ -3,10 +3,10 @@
 
 <div class="p-2 sm:p-12 bg-white rounded-md shadow-2xl">
     <div class="relative h-screen overflow-x-auto sm:rounded-lg">
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between items-center mb-2">
             <h1 class="text-3xl mb-3 font-semibold text-green-700 hidden sm:block">My Documents</h1>
             <input type="text" class="w-fit h-fit rounded-md" onkeyup="filterTable()" id="inputCategory" placeholder="Filter by category">
-            <form action="{{ url('/user-mydocuments') }}" method="GET" class="mb-4">
+            <form action="{{ url('/user-mydocuments') }}" method="GET" class=" flex space-x-2 items-center">
                 <label for="status" class="mr-2 hidden sm:block">Filter by Status:</label>
                 <select name="status" id="status" class="px-2 py-1 border rounded">
                     <option value="">All</option>

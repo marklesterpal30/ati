@@ -19,14 +19,29 @@ class AdminRecordsController extends Controller
     $category = $request->input('category');
     $monthName = $request->input('months');
 
+
     $weeks = $request->input('weeks');
     $office = $request->input('office');
 
     $offices = User::where('role', 'office')->get();
-  
+    $status = $request->input('status');
+    $datenow = Carbon::now();
+
+    $query = Document::query();
+
+
+    if ($status === 'active') {
+        // Fetch documents where datenow is less than 'active years'
+        $query->where('active_years', '>', $datenow);
+    } elseif ($status === 'inactive') {
+        // Fetch documents where datenow is greater than 'active years'
+        $query->where('active_years', '<', $datenow);
+    } elseif ($status === 'disposal') {
+        // Fetch documents where datenow is greater than 'inactive years'
+        $query->where('inactive_years', '<', $datenow);
+    }
     
     // Default query to retrieve all documents
-    $query = Document::query();
 
     if($office){
         $query->where('fowarded_to', $office);
@@ -59,6 +74,9 @@ public function generateReport(Request $request)
     $category = $request->input('reportcategory');
     $months = $request->input('reportmonth');
     $weeks = $request->input('reportweek');
+    $status = $request->input('reportstatus');
+    $datenow = Carbon::now();
+
 
    
 $grouped = null;
@@ -105,6 +123,17 @@ if (is_null($category) && is_null($months)) {
     // Default query to retrieve all documents
     $query = Document::query();
 
+    if ($status === 'active') {
+        // Fetch documents where datenow is less than 'active years'
+        $query->where('active_years', '>', $datenow);
+    } elseif ($status === 'inactive') {
+        // Fetch documents where datenow is greater than 'active years'
+        $query->where('active_years', '<', $datenow);
+    } elseif ($status === 'disposal') {
+        // Fetch documents where datenow is greater than 'inactive years'
+        $query->where('inactive_years', '<', $datenow);
+    }
+
     if ($category) {
         // Add category filter to the query
         $query->where('category', $category);
@@ -148,7 +177,8 @@ if (is_null($category) && is_null($months)) {
     }
 
     // Retrieve documents based on the constructed query
-    $files = $query->where('type', 'incoming')->get();
+    $files = $query->where('type', 'incoming')
+    ->whereIn('status', ['received', 'forwarded', 'accepted'])->get();
 
     return view('admin.records.report', [
         'files' => $files,

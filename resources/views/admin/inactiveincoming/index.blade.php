@@ -1,6 +1,6 @@
 @extends('admin/layouts.master')
 @section('content')
-<div class="p-4 bg-white shadow-xl rounded-md h-fit  w-screen ">  
+<div class="p-4 bg-white shadow-xl rounded-md h-fit  w-fit overflow-auto ">  
     <h1 class="mb-4 text-2xl text-gray-600 font-bold">Inactive Incoming/Document Lists</h1>
     <div role="tablist" class="tabs tabs-boxed bg-white w-screen">
   <input type="radio" name="my_tabs_2" role="tab" class="tab text-sm font-semibold" aria-label="ATI SPECIAL ORDER" checked />

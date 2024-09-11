@@ -35,11 +35,18 @@
                   <option value="{{$office->id}}">{{$office->name}}</option>
                @endforeach
             </select>
+            <select name="status" id="status" class="px-2 py-1 w-full sm:w-fit border rounded">
+               <option value="">All status</option>
+               <option value="active">Active</option>
+               <option value="inactive">Inactive</option>
+               <option value="disposal">Disposal</option>
+            </select>
             <button type="submit" class="px-3 py-1 bg-green-500 text-white rounded ml-2">Filter</button>
          </form>
          <form id="reportForm" action="{{ url('/admin-generateReport') }}" method="GET">
             <input type="text" name="reportcategory" value="" class="hidden">
             <input type="text" name="reportmonth" value="" class="hidden">
+            <input type="text" name="reportstatus" value="" class="hidden">
             <!-- <input type="text" name="reportweek" value="" class="hidden"> -->
             <button type="submit" class="bg-green-400 px-3 py-1.5 mb-2 sm:mb-0 text-white">Generate</button>
          </form>
@@ -106,6 +113,7 @@
    document.addEventListener('DOMContentLoaded', function() {
      var category = document.getElementById('category').value;
      var month = document.getElementById('months').value;
+     var status = document.getElementById('status').value;
 
 
      console.log(category);
@@ -113,28 +121,38 @@
      // Set initial values of hidden inputs
      document.getElementById('reportForm').querySelector('input[name="reportcategory"]').value = category;
      document.getElementById('reportForm').querySelector('input[name="reportmonth"]').value = month;
+     document.getElementById('reportForm').querySelector('input[name="reportstatus"]').value = status;
+
    //   document.getElementById('reportForm').querySelector('input[name="reportweek"]').value = week;
    
      // Update hidden inputs in the second form when there's a change in the first form
      document.getElementById('filterForm').addEventListener('change', function() {
          var category = document.getElementById('category').value;
          var month = document.getElementById('months').value;
+         var status = document.getElementById('status').value;
+
          // var week = document.getElementById('weeks').value;
    
          // Update hidden inputs in the second form
          document.getElementById('reportForm').querySelector('input[name="reportcategory"]').value = category;
          document.getElementById('reportForm').querySelector('input[name="reportmonth"]').value = month;
+         document.getElementById('reportForm').querySelector('input[name="reportstatus"]').value = status;
+
          // document.getElementById('reportForm').querySelector('input[name="reportweek"]').value = week;
      });
    });  // JavaScript to handle form submission and updating hidden inputs
      document.getElementById('filterForm').addEventListener('change', function() {
          var category = document.getElementById('category').value;
          var month = document.getElementById('months').value;
+         var status = document.getElementById('status').value;
+
          // var week = document.getElementById('weeks').value;
          
          // Update hidden inputs in the second form
          document.getElementById('reportForm').querySelector('input[name="reportcategory"]').value = category;
          document.getElementById('reportForm').querySelector('input[name="reportmonth"]').value = month;
+         document.getElementById('reportForm').querySelector('input[name="reportstatus"]').value = status;
+
          // document.getElementById('reportForm').querySelector('input[name="reportweek"]').value = week;
      });
 </script>

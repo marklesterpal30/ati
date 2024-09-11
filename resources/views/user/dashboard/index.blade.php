@@ -57,7 +57,7 @@
 
     </div>
 
-    <div id="BAR CHART" style="width: 80%; ">
+    <div id="BAR CHART" class="w-full h-full" style=" ">
         <canvas id="documentsChart"></canvas>
     </div>
    

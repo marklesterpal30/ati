@@ -8,10 +8,12 @@
             <a href="{{ url('/user-mydocuments') }}"><i class="fa-solid fa-circle-arrow-left fa-2xl text-4xl w-fit" style="color: #00ad62;" > </i></a>
             <h1 class="text-2xl font-semibold">Document Information</h1>
         </div>
-    <div class="flex  space-x-3">
-        <div style="width: 777px; height: 666px;" class="bg-white shadow-lg p-2 rounded-md">
-            <iframe src="{{ asset('storage/files/' . $file->file_name . '.pdf') }}" width="100%" height="100%"></iframe>
-        </div>
+    <div class="flex flex-col sm:flex sm:flex-row  space-x-3">
+    <div class="bg-white shadow-lg p-2 rounded-md w-screen h-screen md:w-[777px] md:h-[666px] ">
+    <iframe src="{{ asset('storage/files/' . $file->file_name . '.pdf') }}" class="w-full h-full" ></iframe>
+</div>
+
+
         <div class="space-y-4 shadow-xl rounded-md bg-white px-1">
             <h1 class="text-2xl font-bold p-3 ">Document Transaction History</h1>
 
