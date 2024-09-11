@@ -34,11 +34,7 @@ class FileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    use Illuminate\Http\Request;
-    use Illuminate\Support\Facades\Storage;
-    use Illuminate\Support\Facades\Auth;
-    use App\Models\Document;
-    
+  
     public function store(Request $request)
     {
         $senderId = Auth::id();
