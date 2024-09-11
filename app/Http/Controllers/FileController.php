@@ -37,38 +37,44 @@ class FileController extends Controller
     {
         $senderId = Auth::id();
         $input = $request->all();
-
+    
+        // Get the file name and extension
         $filename = $request->input('file_name');
         $fileExtension = $request->file('file')->getClientOriginalExtension();
         $filename = $filename . '.' . $fileExtension;
-        $filePath = $request->file('file')->storeAs('files', $filename, 'public');
-
+    
+        // Store the file on the FTP server in the desired directory
+        $filePath = $request->file('file')->storeAs('public/storage/files', $filename, 'ftp'); // Store in /public_html/public/storage/files
+    
+        // Rest of your logic remains unchanged
         $category = $request->input('category');
-
+    
         $lastDocument = Document::where('category', $category)
-        ->latest('updated_at')
-        ->whereNotNull('code')
-        ->first();
-        
-     
-
+            ->latest('updated_at')
+            ->whereNotNull('code')
+            ->first();
+    
         $lastCode = null;
         if ($lastDocument) {
             // Get the code of the last document
             $lastCode = $lastDocument->code;
         }
-
-        $input['file'] = $filename;
+    
+        // Update the input array for database insertion
+        $input['file'] = $filename; // Only storing the file name in the database
         $input['sender_id'] = $senderId;
         $input['status'] = "pending";
         $input['sended_date'] = now();
         $input['recieved_by'] = 2;
         $input['type'] = 'incoming';
         $input['lastcode'] = $lastCode;
+    
+        // Create a new document record
         Document::create($input);
-
+    
         return redirect('/user-outgoing')->with('success', 'Your file outgoing is successful.');
     }
+    
 
     /**
      * Display the specified resource.
