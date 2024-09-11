@@ -61,13 +61,6 @@ return [
                 'host'     => env('FTP_HOST'),
                 'username' => env('FTP_USERNAME'),
                 'password' => env('FTP_PASSWORD'),
-
-                // Optional FTP settings
-                'port'     => env('FTP_PORT'),
-                'root'     => env('FTP_ROOT'),
-                'passive'  => true,
-                'ssl'      => true,
-                'timeout'  => 30,
             ],
 
 
