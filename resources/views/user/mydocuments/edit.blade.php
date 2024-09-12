@@ -10,7 +10,7 @@
         </div>
     <div class="flex flex-col sm:flex sm:flex-row  space-x-3">
     <div class="bg-white shadow-lg p-2 rounded-md w-screen h-screen md:w-[777px] md:h-[666px] ">
-    <iframe src="{{ asset('storage/files/' . $file->file_name . '.pdf') }}" class="w-full h-full" ></iframe>
+    <iframe src="{{ asset('storage/app/public/files/' . $file->file_name . '.pdf') }}" class="w-full h-full" ></iframe>
 </div>
 
 
