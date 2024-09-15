@@ -12,7 +12,7 @@
         </div>
     <div class="flex  space-x-3">
         <div style="width: 777px; height: 666px;" class="bg-white shadow-lg p-2 rounded-md">
-            <iframe src="{{ asset('storage/files/' . $file->file_name . '.pdf') }}" width="100%" height="100%"></iframe>
+            <iframe src="{{ asset('storage/app/public/files/' . $file->file_name . '.pdf') }}" width="100%" height="100%"></iframe>
         </div>
         <div class="space-y-4 shadow-xl rounded-md bg-white px-1">
             <h1 class="text-2xl font-bold p-3 ">Document Transaction History</h1>

@@ -4,14 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    @vite('resources/css/app.css')
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton+SC&family=Bungee+Shade&family=Paytone+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<style>
+    .poppins-medium {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+</style>
 </head>
 <body>
     <div style="background-image: url('{{ asset('storage/images/loginbg.jpg') }}');" class="bg-cover h-screen w-screen overflow-hidden relative">
         <div class="absolute bg-green-900 opacity-85 z-10 h-screen w-screen flex items-center justify-center"> </div>
     <div class="flex justify-center bg-pink-400">     
-            <h1 class="z-50  absolute mt-16 sm:mt-8  text-4xl sm:text-5xl text-center  font-bold text-white opacity-100"><span class="text-green-600 text-6xl">A</span>gricultural <span class="text-green-600 text-6xl">T</span>raining <span class="text-green-600 text-6xl">I</span>nstitute</h1>
-        </div>                <div class="flex flex-row-reverse items-center justify-center px-6 py-8 w-screen mx-auto h-screen lg:py-0 mt-10 sm:mt-0">
+    <h1 class="z-50  absolute mt-32 md:mt-12  sm:mt-8  text-6xl sm:text-7xl text-center  font-bold text-white opacity-100">DocuTrack</h1>
+</div>       
+         <div class="flex flex-row-reverse items-center justify-center px-6 py-8 w-screen mx-auto h-screen lg:py-0 mt-10 sm:mt-12">
                     <div class="w-full  sm:w-1/3  z-50 bg-white opacity-95 rounded-lg shadow dark:border xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                             <div class="flex justify-center  p-0">
