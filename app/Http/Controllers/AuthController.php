@@ -43,40 +43,39 @@ class AuthController extends Controller
         return redirect('/login')->withErrors(['credentials' => 'Invalid email or password.']);
     }
     
+    public function signupForm(){
+        return view('auth.signup');
+    }
 
-public function signupForm(){
-    return view('auth.signup');
-}
+    public function signup(Request $request){
+        $input = $request->all();
 
-public function signup(Request $request){
-    $input = $request->all();
+        User::create($input);
 
-    User::create($input);
+        $recipient = $request->input('email');
 
-    $recipient = $request->input('email');
-
-    $message = "Plese Verify Your Account";
-    $request->session()->flash('email', $recipient);
-
-
-    Mail::to($recipient)->send(new VerifyMail($message));
+        $message = "Plese Verify Your Account";
+        $request->session()->flash('email', $recipient);
 
 
-    return redirect('/login');
-}
+        // Mail::to($recipient)->send(new VerifyMail($message));
 
-public function verify($email){
-    $user = User::where('email', $email);
-    $user->update([
-     'email_verified_at' => now(),
-    ]);
 
-    return redirect('/login');
- }
+        return redirect('/login');
+    }
 
-public function logout(){
-    Auth::logout();
-    return redirect('/login');
-}
+    public function verify($email){
+        $user = User::where('email', $email);
+        $user->update([
+        'email_verified_at' => now(),
+        ]);
+
+        return redirect('/login');
+    }
+
+    public function logout(){
+        Auth::logout();
+        return redirect('/login');
+    }
 
 }

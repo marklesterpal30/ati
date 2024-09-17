@@ -22,9 +22,6 @@ class Document extends Model
         'recieved_date',
         'fowarded_by',
         'fowarded_date',
-        'fowarded_to',
-        'accepted_by',
-        'accepted_date',
         'recipient_id',
         'active_years',
         'inactive_years',
@@ -34,6 +31,11 @@ class Document extends Model
         'outgoing_email',
         'lastcode'
     ];
+
+    public function forwardedDocuments()
+    {
+        return $this->hasMany(ForwardedDocument::class);
+    }
 
     public function user()
     {

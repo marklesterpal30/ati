@@ -26,9 +26,6 @@ return new class extends Migration
             $table->timestamp('recieved_date')->nullable();
             $table->foreignId('fowarded_by')->nullable()->references('id')->on('users');
             $table->timestamp('fowarded_date')->nullable();
-            $table->foreignId('fowarded_to')->nullable()->references('id')->on('users');
-            $table->foreignId('accepted_by')->nullable()->references('id')->on('users');
-            $table->timestamp('accepted_date')->nullable();
             $table->timestamp('active_years')->nullable();
             $table->timestamp('inactive_years')->nullable();
             $table->string('stage')->nullable(); // Default value is false

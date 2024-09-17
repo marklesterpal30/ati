@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Document;
+use App\Models\ForwardedDocument;
 use App\Models\DocumentHistory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -15,9 +16,7 @@ use App\Models\Purpose;
 
 class OfficeAllDocumentsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function forwardDocuments(Request $request){
         $userId = Auth::id();
 
@@ -36,8 +35,6 @@ class OfficeAllDocumentsController extends Controller
             'forwarded_date' => now(),
         ]);
 
-
-        
         return redirect('/distributor-alldocuments');  
     }
 
@@ -51,30 +48,30 @@ class OfficeAllDocumentsController extends Controller
         $day = $request->input('day');
         $selectedDay = $request->input('day');
         $selectedMonth = $request->input('month');
-    
+        
         $query = Document::query();
-    
-        if($category) {
+        
+        if ($category) {
             $query->where('category', $category);
         }
-        if($month) {
+        if ($month) {
             $query->whereMonth('created_at', $month);
-            if($day) {
+            if ($day) {
                 $query->whereDay('created_at', $day);
             }
         }
-    
-        $files = $query->where('fowarded_to', $userId)
-                       ->where('status', 'accepted')
-                       ->where('type', 'incoming')
-                       ->get();
 
+        $files = Document::where('status', 'accepted')
+        ->whereHas('forwardedDocuments', function($query) use ($userId) {
+            $query->where('accepted_by', $userId);
+        })
+        ->get();
         $purposes = Purpose::where('purpose_type', 'incoming')->get();
-
-        $incomingCountOffice = Document::where('status', 'pending')
-        ->where('recieved_by', $userId)
-        ->count();
     
+        $incomingCountOffice = Document::where('status', 'pending')
+            ->where('recieved_by', $userId)
+            ->count();
+        
         return view('office.alldocuments.index', compact(
             'files',
             'selectedMonth',
@@ -85,55 +82,37 @@ class OfficeAllDocumentsController extends Controller
         ));
     }
     
-    
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $file = Document::find($id);
-    
+        $forwardedDocument = ForwardedDocument::where('document_id', $file->id)->get();
+
         return view('office.alldocuments.edit', compact(
-            'file'
+            'file',
+            'forwardedDocument'
         ));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-       
+       //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //

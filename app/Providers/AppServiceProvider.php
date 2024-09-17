@@ -21,16 +21,10 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-    {
-       
-            $incomingCountRecordsOffice = Document::where('status', 'pending')
+    { 
+          $incomingCountRecordsOffice = Document::where('status', 'pending')
             ->where('recieved_by', 2)
             ->count();
-
-           
-          
-
             View::share('incomingCountRecordsOffice', $incomingCountRecordsOffice);
-        
     }
 }
