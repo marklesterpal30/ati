@@ -14,7 +14,6 @@ class AuthController extends Controller
     public function showlogin(){
         return view('auth.login');
     }   
-
     public function login(Request $request)
     {
         // Attempt to authenticate the user
@@ -25,44 +24,95 @@ class AuthController extends Controller
     
             // Check if the user's email is verified
             if (is_null($user->email_verified_at)) {
-                // Redirect the user if their email is not verified
-                Auth::logout(); // Log them out immediately
-                return redirect('/login')->withErrors(['email' => 'Please verify your email before logging in.']);
+                // Log out the user if their email is not verified
+                Auth::logout();
+                return redirect('/login')->with('error', 'Please verify your email before logging in.');
             }
     
             // Redirect based on user role
             if ($user->role == 'user') {
-                return redirect()->intended('/user-dashboard');
+                return redirect()->intended('/user-dashboard')->with('success', 'Welcome back!');
             } elseif ($user->role == 'admin' || $user->role == 'superadmin') {
-                return redirect()->intended('/admin-dashboard');
+                return redirect()->intended('/admin-dashboard')->with('success', 'Welcome back!');
             } else {
-                return redirect()->intended('/office-dashboard');
+                return redirect()->intended('/office-dashboard')->with('success', 'Welcome back!');
             }
         }
     
-        return redirect('/login')->withErrors(['credentials' => 'Invalid email or password.']);
+        return redirect('/login')->with('error', 'Invalid email or password.');
     }
+    
     
     public function signupForm(){
         return view('auth.signup');
     }
 
-    public function signup(Request $request){
-        $input = $request->all();
+    public function signup(Request $request) {
 
-        User::create($input);
+        $existingUser = User::where('email', $request->input('email'))->first();
+        
+        if ($existingUser) {
+            $request->session()->flash('error', 'The email is already used.');
+            return redirect()->back()->withInput();
+        }
+            $input = $request->all();
+        
+        try {
+            User::create($input);
+    
+            $recipient = $request->input('email');
+            $message = "Please Verify Your Account";
+            $request->session()->flash('email', $recipient);
 
-        $recipient = $request->input('email');
-
-        $message = "Plese Verify Your Account";
-        $request->session()->flash('email', $recipient);
-
-
-        // Mail::to($recipient)->send(new VerifyMail($message));
-
-
-        return redirect('/login');
+            Mail::to($recipient)->send(new VerifyMail($message));
+    
+            return redirect('/login')->with('success', 'Signup successful! Please verify your email.');
+    
+        } catch (\Exception $e) {
+            $request->session()->flash('error', 'Signup failed. Please try again.');
+            return redirect()->back()->withInput();
+        }
     }
+
+    public function showVerify(){
+        return view('auth.verify');
+    }
+
+    public function sendVerification(Request $request)
+    {
+        // Retrieve the email from the request input
+        $recipient = $request->input('email');
+    
+        // Check if the user exists
+        $user = User::where('email', $recipient)->first();
+    
+        // If the user does not exist, redirect back with an error
+        if (!$user) {
+            return redirect('/verifyForm')->with('error', 'This email is not registered.');
+        }
+    
+        // If the user is already verified, redirect back with an error
+        if (!is_null($user->email_verified_at)) {
+            return redirect('/verifyForm')->with('error', 'This email is already verified.');
+        }
+    
+        // Attempt to send the verification email
+        try {
+            $message = "Please Verify Your Account";
+            $request->session()->flash('email', $recipient);
+    
+            // Send the verification email
+            Mail::to($recipient)->send(new VerifyMail($message));
+    
+            // If email sent successfully, redirect to login with a success message
+            return redirect('/login')->with('success', 'Check your email to verify your account.');
+        } catch (\Exception $e) {
+            // Catch any errors and return an error message
+            return redirect('/login')->with('error', 'There was an issue sending the email. Please try again later.');
+        }
+    }
+    
+    
 
     public function verify($email){
         $user = User::where('email', $email);
@@ -70,7 +120,7 @@ class AuthController extends Controller
         'email_verified_at' => now(),
         ]);
 
-        return redirect('/login');
+        return redirect('/login')->with('success', 'Your account is verified now');
     }
 
     public function logout(){

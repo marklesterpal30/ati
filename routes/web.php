@@ -64,6 +64,10 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/signupForm', [AuthController::class, 'signupForm']);
 Route::post('/signup', [AuthController::class, 'signup']);
 
+Route::get('/verifyForm', [AuthController::class, 'showVerify']);
+Route::post('/sendVerification', [AuthController::class, 'sendVerification']);
+
+
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 

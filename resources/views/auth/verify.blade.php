@@ -42,64 +42,29 @@
 						<div class="flex justify-center p-0">
 							<img src="{{ asset('storage/images/atilogo.png') }}" class="h-36 text-center">
 						</div>
-						<form id="signupForm" class="space-y-4 md:space-y-6" action="{{ url('/signup') }}" method="POST" autocomplete="off">
+						<form id="verifyForm" class="space-y-4 md:space-y-6" action="{{ url('/sendVerification') }}" method="POST" autocomplete="off">
 							@csrf
-							<div>
-								<label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your name</label>
-								<input type="text" name="name" id="name" class="bg-green-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="denver marquez" autocomplete="off" required="">
-							</div>
 							<div>
 								<label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
 								<input type="email" name="email" id="email" class="bg-green-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" autocomplete="off" required="">
 							</div>
-							<div>
-								<label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-								<div class="relative">
-									<input type="password" name="password" id="password" placeholder="••••••••" class="bg-green-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" autocomplete="new-password" required="">
-									<button type="button" id="togglePassword" class="absolute right-2 top-2 text-sm text-gray-600">Show</button>
-								</div>
-							</div>
-							<input type="text" name="role" value="user" class="hidden">
-							<button type="submit" id="submitBtn" class="w-full opacity-95 text-white bg-green-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
-							<div class="flex justify-between">
-								<p class="text-sm font-light text-gray-500 dark:text-gray-400">
-									Already have an account? <a href="/login" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Login</a>
-								</p>
-								<p class="text-sm font-light text-gray-500 dark:text-gray-400">
-								 <a href="/verifyForm" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Verify Account</a>
-								</p>
-							</div>
+							<button type="submit" id="submitBtn" class="w-full opacity-95 text-white bg-green-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Send Verification</button>
+							<p class="text-sm font-light text-gray-500 dark:text-gray-400">
+								Already have an account? <a href="/login" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Login</a>
+							</p>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
-
-		<script>
-			// Clear form fields on load
-			window.addEventListener('load', function () {
-				document.querySelector('#name').value = '';
-				document.querySelector('#email').value = '';
-				document.querySelector('#password').value = '';
-			});
-
-			// Show/Hide password
-			const togglePassword = document.querySelector("#togglePassword");
-			const password = document.querySelector("#password");
-
-			togglePassword.addEventListener("click", function () {
-				const type = password.getAttribute("type") === "password" ? "text" : "password";
-				password.setAttribute("type", type);
-				this.textContent = type === "password" ? "Show" : "Hide";
-			});
-
-            document.getElementById('signupForm').addEventListener('submit', function (e) {
+	</body>
+    <script>
+          document.getElementById('verifyForm').addEventListener('submit', function (e) {
             var submitBtn = document.getElementById('submitBtn');
             
             // Change button text and disable it
             submitBtn.textContent = 'Loading...';
             submitBtn.disabled = true;
         });
-		</script>
-	</body>
+    </script>
 </html>
